@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace Domain
 {
-    internal class Client
+    public class Client : BaseEntity
     {
+      public ICollection<Turn> Turns { get; set; } = new List<Turn>(); // Es una coleccion
+      public string Name {  get; set; }
+      public string Email { get; set; }
+      public string Phone { get; set; }
+      private string Password {  get; set; }
     }
 }
