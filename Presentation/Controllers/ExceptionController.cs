@@ -7,11 +7,5 @@ namespace Presentation.Controllers
     [ApiController]
     public class ExceptionController : ControllerBase
     {
-        public ClientController()
-        {
-
-        }
-
-        [HttpGet("id")]
     }
 }
