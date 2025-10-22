@@ -1,4 +1,6 @@
 ﻿
+using Domain.Entity;
+
 namespace Domain.Entities
 {
     public class Payment : BaseEntity

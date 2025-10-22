@@ -1,4 +1,6 @@
 ﻿
+using Domain.Entity;
+
 namespace Domain
 {
     public class ScheduleException : BaseEntity
