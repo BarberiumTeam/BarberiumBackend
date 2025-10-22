@@ -1,13 +1,10 @@
-﻿
-using Domain.Entity;
-
-namespace Domain.Entities
+﻿namespace Domain.Entity
 {
     public class Payment : BaseEntity
     {
         public int TurnId { get; set; } // FK
         public Turn Turn { get; set; } // Propiedad navegacion
-        public Decimal Amount { get; set; }
+        public decimal Amount { get; set; }
         public DateTime DatePayment { get; set; }
         public MethodPayment Method { get; set; }
         public StatePayment State { get; set; }

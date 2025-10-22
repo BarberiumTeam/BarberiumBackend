@@ -1,7 +1,4 @@
-﻿
-using Domain.Entities;
-
-namespace Domain
+﻿namespace Domain.Entity
 {
     public class Turn : BaseEntity
     {
