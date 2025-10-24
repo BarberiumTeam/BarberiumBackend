@@ -1,5 +1,6 @@
 ﻿using Application.Abstraction;
 using Domain.Entity;
+using System.Linq;
 
 namespace Infrastructure.Persistence.Repository;
 
@@ -11,8 +12,17 @@ public class ClientRepository : IClientRepository
         _context = context;
     }
 
-    public Client GetClientById(int id)
+    public async Task<Client?> CreateClientAsync(Client client)
     {
-        throw new NotImplementedException();
+        _context.Clients.Add(client);
+        await _context.SaveChangesAsync();
+
+        return client;
     }
+
+    public Client? GetClientById(int id)
+    {
+        return _context.Clients.FirstOrDefault(i => i.Id == id);
+    }
+
 }

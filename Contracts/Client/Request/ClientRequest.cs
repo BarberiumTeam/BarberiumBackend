@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Contracts.Client.Response
+namespace Contracts.Client.Request
 {
-    public class ClientResponse
+    public class ClientRequest
     {
         public int Id { get; set; }
         public string Name { get; set; }

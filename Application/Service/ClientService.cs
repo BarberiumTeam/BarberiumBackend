@@ -1,4 +1,5 @@
 ﻿using Application.Abstraction;
+using Contracts.Client.Request;
 using Contracts.Client.Response;
 
 
@@ -13,9 +14,19 @@ namespace Application.Service
             _clientRepository = clientRepository;
         }
 
-        public ClientResponse GetClientById(int clientId)
+        public Task<ClientResponse> CreateClientAsync(ClientRequest request, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ClientResponse? GetClientById(int clientId)
         {
             var client = _clientRepository.GetClientById(clientId);
+
+            if (client == null)
+            {
+                return null;
+            }
 
             return new ClientResponse
             {
@@ -26,5 +37,6 @@ namespace Application.Service
             };
 
         }
-    }
+        
+}
 }

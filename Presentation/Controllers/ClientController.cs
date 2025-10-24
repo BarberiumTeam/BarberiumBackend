@@ -1,6 +1,7 @@
 ﻿using Application.Service;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Contracts.Client.Response;
 
 namespace Presentation.Controllers
 {
@@ -16,10 +17,19 @@ namespace Presentation.Controllers
         }
 
         [HttpGet("{clientId}")]
-        public IActionResult GetClientById(int clientId)
+        public ActionResult<ClientResponse?> GetClientById(int clientId)
         {
             var client = _clientService.GetClientById(clientId);
+
+            if (client == null)
+            {
+                return NotFound();
+            }
+
             return Ok(client);
         }
+
+        
+
     }
 }
