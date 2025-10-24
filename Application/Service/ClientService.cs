@@ -1,24 +1,30 @@
-﻿using Contracts.Client.Response;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Application.Abstraction;
+using Contracts.Client.Response;
+
 
 namespace Application.Service
 {
     public class ClientService : IClientService
     {
+        private readonly IClientRepository _clientRepository;
+
+        public ClientService(IClientRepository clientRepository)
+        {
+            _clientRepository = clientRepository;
+        }
+
         public ClientResponse GetClientById(int clientId)
         {
-            // Aquí deberías implementar la lógica real para obtener el cliente
-            // Por ahora, retornamos un cliente de prueba
+            var client = _clientRepository.GetClientById(clientId);
+
             return new ClientResponse
             {
-                Id = 1,
-                Name = "Cliente de prueba",
-                Email = "cliente@ejemplo.com"
+                Name = client.Name,
+                Email = client.Email,
+                Phone = client.Phone,
+
             };
+
         }
     }
 }

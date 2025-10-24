@@ -1,10 +1,13 @@
+using Application.Abstraction;
 using Application.Service;
+using Infrastructure.Persistence.Repository;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 #region Service Injections
 builder.Services.AddScoped<IClientService, ClientService>();
+builder.Services.AddScoped<IClientRepository, ClientRepository>();
 #endregion
 
 builder.Services.AddControllers();
