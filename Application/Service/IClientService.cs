@@ -8,5 +8,7 @@ namespace Application.Service
         List<ClientResponse> GetAllClients();
         ClientResponse? GetClientById(int clientId);
 
+        bool CreateClient(CreateClientRequest request);
+        bool UpdateClient(int id, UpdateClientRequest request);
     }
 }

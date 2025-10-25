@@ -1,6 +1,7 @@
 ﻿using Application.Abstraction;
 using Contracts.Client.Request;
 using Contracts.Client.Response;
+using Domain.Entity;
 
 namespace Application.Service
 {
@@ -46,6 +47,37 @@ namespace Application.Service
 
             };
 
+        }
+
+        public bool CreateClient(CreateClientRequest request)
+        {
+            // Aca iria la logica de negocio ej: Si el email existe
+
+            // Esto es el mapeo del DTO a entidad dominio
+            var ClientEntity = new Client
+            {
+                Name = request.Name,
+                Email = request.Phone,
+                Phone = request.Phone,
+
+                //Aca se hashea la contraseña.
+            };
+            return _clientRepository.CreateClient(ClientEntity);
+        }
+
+        public bool UpdateClient(int id, UpdateClientRequest request)
+        {
+            var ClientToUpdate = _clientRepository.GetClientById(id);
+
+            if (ClientToUpdate == null)
+            {
+                return false;
+            }
+            ClientToUpdate.Name = request.Name;
+            ClientToUpdate.Email = request.Email;
+            ClientToUpdate.Phone = request.Phone;
+
+            return _clientRepository.UpdateClient(ClientToUpdate);
         }
         
 }

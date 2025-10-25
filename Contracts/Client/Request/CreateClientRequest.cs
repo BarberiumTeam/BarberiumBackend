@@ -8,6 +8,12 @@ namespace Contracts.Client.Request
 {
     public class CreateClientRequest
     {
+        //No le vamos a pedir el ID porque se genera solo por el EF
+        public string Name { get; set; }
+        public string Email { get; set; }
+        public string Phone { get; set; }
+
+        //Mas adelante vamos a crear la password y hashearla.
 
     }
 }

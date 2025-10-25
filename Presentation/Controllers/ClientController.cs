@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Contracts.Client.Response;
+using Contracts.Client.Request;
 
 namespace Presentation.Controllers
 {
@@ -36,7 +37,33 @@ namespace Presentation.Controllers
             return Ok(client);
         }
 
-        
+        [HttpPost]
+        public IActionResult CreateClient([FromBody] CreateClientRequest request)
+        {
+            bool success = _clientService.CreateClient(request);
 
+            if (!success)
+            {
+                return BadRequest("No se creo el cliente, revise nuevamente los datos");
+            }
+
+            return Created();
+        }
+
+        [HttpPut("{id}")]
+        public IActionResult UpdateClient(int id, [FromBody] UpdateClientRequest request)
+        {
+            if (id <= 0) return BadRequest("Id invalido");
+
+            bool success = _clientService.UpdateClient(id, request);
+
+            if (!success)
+            {
+                return NotFound($"Cliente con {id} no encontrado o no se pudo actualizar");
+            }
+
+            return NoContent();
+        }
+        
     }
 }

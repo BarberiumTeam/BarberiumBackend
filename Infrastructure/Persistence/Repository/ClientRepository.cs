@@ -22,4 +22,16 @@ public class ClientRepository : IClientRepository
         return _context.Clients.FirstOrDefault(i => i.Id == id);
     }
 
+    public bool CreateClient(Client client)
+    {
+        _context.Clients.Add(client);
+        return _context.SaveChanges() > 0;
+    }
+
+    public bool UpdateClient(Client client)
+    {
+        _context.Clients.Update(client);
+        return _context.SaveChanges() > 0;
+    }
+
 }
