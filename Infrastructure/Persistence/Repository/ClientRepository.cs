@@ -12,12 +12,9 @@ public class ClientRepository : IClientRepository
         _context = context;
     }
 
-    public async Task<Client?> CreateClientAsync(Client client)
+    public List<Client> GetAllClients()
     {
-        _context.Clients.Add(client);
-        await _context.SaveChangesAsync();
-
-        return client;
+        return _context.Clients.ToList();
     }
 
     public Client? GetClientById(int id)

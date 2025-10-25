@@ -5,8 +5,8 @@ namespace Application.Abstraction
 {
     public interface IClientRepository
     {
-        Client? GetClientById(int id);
-        Task<Client?> CreateClientAsync(Client client);
-    
+        Client? GetClientById(int id);  // estps dos se manejan mas facil 
+        List<Client> GetAllClients();  // debido a que necesitan solo un response, porque devuelven lo mismo.
+
     }
 }

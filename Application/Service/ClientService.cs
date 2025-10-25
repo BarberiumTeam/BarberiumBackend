@@ -2,7 +2,6 @@
 using Contracts.Client.Request;
 using Contracts.Client.Response;
 
-
 namespace Application.Service
 {
     public class ClientService : IClientService
@@ -14,11 +13,21 @@ namespace Application.Service
             _clientRepository = clientRepository;
         }
 
-        public Task<ClientResponse> CreateClientAsync(ClientRequest request, CancellationToken cancellationToken = default)
+        // traer todos los clientes
+        public List<ClientResponse> GetAllClients()
         {
-            throw new NotImplementedException();
+            var clients = _clientRepository.GetAllClients();
+
+            return clients.Select(client => new ClientResponse
+            {
+                Id = client.Id,
+                Name = client.Name,
+                Email = client.Email,
+                Phone = client.Phone,
+            }).ToList();
         }
 
+        // trae un solo cliente por id
         public ClientResponse? GetClientById(int clientId)
         {
             var client = _clientRepository.GetClientById(clientId);

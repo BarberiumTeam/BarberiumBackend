@@ -16,6 +16,13 @@ namespace Presentation.Controllers
             _clientService = clientService;
         }
 
+        [HttpGet]
+        public ActionResult<IEnumerable<ClientResponse>> GetAllClients()
+        {
+            var clients = _clientService.GetAllClients();
+            return Ok(clients);
+        }
+
         [HttpGet("{clientId}")]
         public ActionResult<ClientResponse?> GetClientById(int clientId)
         {
