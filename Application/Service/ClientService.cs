@@ -30,6 +30,7 @@ namespace Application.Service
 
             return new ClientResponse
             {
+                Id = client.Id,
                 Name = client.Name,
                 Email = client.Email,
                 Phone = client.Phone,
