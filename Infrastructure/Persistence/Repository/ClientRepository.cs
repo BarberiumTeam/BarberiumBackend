@@ -34,4 +34,15 @@ public class ClientRepository : IClientRepository
         return _context.SaveChanges() > 0;
     }
 
+    public bool DeleteClient(int id)
+    {
+        var ClientToDelete = _context.Clients.FirstOrDefault(c => c.Id == id);
+
+        if (ClientToDelete == null) return false;
+
+        _context.Clients.Remove(ClientToDelete);
+        
+        return _context.SaveChanges() > 0;
+    }
+
 }

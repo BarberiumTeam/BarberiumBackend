@@ -79,6 +79,10 @@ namespace Application.Service
 
             return _clientRepository.UpdateClient(ClientToUpdate);
         }
-        
-}
+
+        public bool DeleteClient(int id)
+        {
+            return _clientRepository.DeleteClient(id); 
+        }
+    }
 }

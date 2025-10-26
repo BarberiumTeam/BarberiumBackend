@@ -64,6 +64,21 @@ namespace Presentation.Controllers
 
             return NoContent();
         }
+
+        [HttpDelete("{id}")]
+        public IActionResult DeleteClient(int id)
+        {
+            if (id <= 0) return BadRequest("Id invalido");
+
+            bool success = _clientService.DeleteClient(id);
+
+            if (!success)
+            {
+                return NotFound($"Cliente con el {id} no fue encontrado y no se pudo borrar");
+            }
+
+            return NoContent();
+        }
         
     }
 }
