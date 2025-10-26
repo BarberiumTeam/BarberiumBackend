@@ -10,6 +10,8 @@ var builder = WebApplication.CreateBuilder(args);
 #region Service Injections
 builder.Services.AddScoped<IClientService, ClientService>();
 builder.Services.AddScoped<IClientRepository, ClientRepository>();
+builder.Services.AddScoped<IBarberService, BarberService>();
+builder.Services.AddScoped<IBarberRepository, BarberRepository>();
 #endregion
 
 builder.Services.AddDbContext<BarberiumDbContext>(options =>

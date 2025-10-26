@@ -6,6 +6,7 @@ namespace Infrastructure.Persistence;
 public class BarberiumDbContext : DbContext
 {
     public DbSet<Client> Clients { get; set; }
+    public DbSet<Barber> Barbers { get; set; }
     public BarberiumDbContext(DbContextOptions<BarberiumDbContext> options) : base(options)   
     {
         

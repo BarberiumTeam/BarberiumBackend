@@ -10,7 +10,6 @@ namespace Application.Service
 
         bool CreateClient(CreateClientRequest request);
         bool UpdateClient(int id, UpdateClientRequest request);
-
         bool DeleteClient(int id);
     }
 }

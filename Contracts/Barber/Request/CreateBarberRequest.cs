@@ -4,11 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Contracts.Barber.Response
+namespace Contracts.Barber.Request
 {
-    public class BarberResponse
+    public class CreateBarberRequest
     {
-        public int Id { get; set; }
         public string Name { get; set; }
         public string Specialty { get; set; }
     }

@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace Contracts.Barber.Request
 {
-    internal class BarberRequest
+    public class UpdateBarberRequest
     {
+        public string Name { get; set; }
+        public string Specialty { get; set; }
     }
 }
