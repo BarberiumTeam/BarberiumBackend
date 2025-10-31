@@ -10,8 +10,8 @@ namespace Application.Abstraction
     public interface IBarberRepository
     {
         // Esto son ReadOnly
-        Barber? GetBarberById(int id);  // estps dos se manejan mas facil 
-        List<Barber> GetAllBarbers();  // debido a que necesitan solo un response, porque devuelven lo mismo.
+        Barber? GetBarberById(int id);  
+        List<Barber> GetAllBarbers();  
 
         // Esto son WriteOnly porque modifican y esperan una respuesta booleana
         bool CreateBarber(Barber barber);
