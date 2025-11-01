@@ -11,7 +11,7 @@ namespace Contracts.BarberSchedule.Response
     {
         public int Id { get; set; }
         public int BarberId { get; set; }
-        public string Barber { get; set; }
+        public string Barber { get; set; } = string.Empty;
         public TimeOnly StartTime { get; set; }
         public TimeOnly EndTime { get; set; }
         public WeekDay WeekDay { get; set; }

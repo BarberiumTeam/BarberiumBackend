@@ -9,6 +9,7 @@ namespace Application.Abstraction
 {
     public interface IBarberScheduleRepository
     {
+        BarberSchedule? GetBarberScheduleById(int barberId);
         List<BarberSchedule> GetAllBarberSchedules();
         bool CreateBarberSchedule(BarberSchedule barberSchedule);
         bool UpdateBarberSchedule(BarberSchedule barberSchedule);

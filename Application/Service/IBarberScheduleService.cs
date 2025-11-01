@@ -1,10 +1,14 @@
-﻿namespace Application.Service
+﻿using Contracts.BarberSchedule.Response;
+using Contracts.BarberSchedule.Request;
+
+namespace Application.Service
 {
     public interface IBarberScheduleService
     {
-        List<Contracts.BarberSchedule.Response.BarberScheduleResponse> GetAllBarberSchedules();
-        bool CreateBarberSchedule(Contracts.BarberSchedule.Request.CreateBarberScheduleRequest request);
-        bool UpdateBarberSchedule(int id, Contracts.BarberSchedule.Request.UpdateBarberScheduleRequest request);
+        List<BarberScheduleResponse> GetAllBarberSchedules();
+        BarberScheduleResponse? GetBarberScheduleById(int BarberId);
+        bool CreateBarberSchedule(CreateBarberScheduleRequest request);
+        bool UpdateBarberSchedule(int id, UpdateBarberScheduleRequest request);
         bool DeleteBarberSchedule(int id);
     }
 }
