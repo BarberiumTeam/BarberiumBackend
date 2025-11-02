@@ -1,13 +1,7 @@
 ﻿using Application.Abstraction;
-using Contracts.Barber.Response;
 using Contracts.BarberSchedule.Request;
 using Contracts.BarberSchedule.Response;
 using Domain.Entity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Application.Service
 {

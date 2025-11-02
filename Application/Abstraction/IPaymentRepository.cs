@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Contracts.Payment.Request
+namespace Application.Abstraction
 {
-    internal class PaymentRequest
+    public interface IPaymentRepository
     {
     }
 }

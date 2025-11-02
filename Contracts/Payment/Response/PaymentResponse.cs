@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Contracts.Payment.Response
 {
-    internal class PaymentResponse
+    public class PaymentResponse
     {
     }
 }

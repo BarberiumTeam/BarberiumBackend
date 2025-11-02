@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Contracts.Turn.Response
+namespace Infrastructure.Persistence.Repository
 {
-    public class TurnResponse
+    public class TurnRepository
     {
     }
 }

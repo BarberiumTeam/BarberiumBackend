@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Contracts.Turn.Response
+namespace Contracts.Turn.Request
 {
-    public class TurnResponse
+    public class CreateTurnRequest
     {
     }
 }

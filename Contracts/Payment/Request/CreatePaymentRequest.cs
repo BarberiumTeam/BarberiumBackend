@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Contracts.Turn.Request
+namespace Contracts.Payment.Request
 {
-    internal class TurnRequest
+    public class CreatePaymentRequest
     {
     }
 }
