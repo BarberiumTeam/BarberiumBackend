@@ -1,5 +1,6 @@
 ﻿using Application.Abstraction;
 using Domain.Entity;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Persistence.Repository
 {
@@ -14,11 +15,11 @@ namespace Infrastructure.Persistence.Repository
 
         public List<ScheduleException> GetAllScheduleExceptions()
         {
-            return _context.ScheduleExceptions.ToList();
+            return _context.ScheduleExceptions.Include(s => s.Barber).ToList();
         }
         public ScheduleException? GetScheduleExceptionById(int id)
         {
-            return _context.ScheduleExceptions.FirstOrDefault(se => se.Id == id);
+            return _context.ScheduleExceptions.Include(s => s.Barber).FirstOrDefault(se => se.Id == id);
         }
         public bool CreateScheduleException(ScheduleException scheduleException)
         {

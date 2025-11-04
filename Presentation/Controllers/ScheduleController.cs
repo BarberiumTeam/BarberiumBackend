@@ -3,7 +3,6 @@ using Contracts.BarberSchedule.Request;
 using Contracts.BarberSchedule.Response;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-
 namespace Presentation.Controllers
 {
     [Route("api/[controller]")]

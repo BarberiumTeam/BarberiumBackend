@@ -8,8 +8,12 @@ namespace Contracts.ScheduleException.Request
     {
         // Solo permitimos actualizar los detalles de la excepción, no el Barbero.
         [Required]
-        [DataType(DataType.Date)]
-        public DateOnly ExceptionDate { get; set; }
+        [DataType(DataType.Date)] 
+        public DateOnly ExceptionStartDate { get; set; }
+
+        [Required]
+        [DataType(DataType.Date)] 
+        public DateOnly ExceptionEndDate { get; set; }
 
         [Required]
         public TimeOnly ExceptionStartTime { get; set; }

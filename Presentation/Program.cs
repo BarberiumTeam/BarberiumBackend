@@ -21,6 +21,9 @@ builder.Services.AddScoped<IBarberScheduleRepository, BarberScheduleRepository>(
 
 builder.Services.AddScoped<IScheduleExceptionService, ScheduleExceptionService>();
 builder.Services.AddScoped<IScheduleExceptionRepository, ScheduleExceptionRepository>();
+
+builder.Services.AddScoped<ITurnService,TurnService>();
+builder.Services.AddScoped<ITurnRepository,TurnRepository>();
 #endregion
 
 builder.Services.AddDbContext<BarberiumDbContext>(options =>

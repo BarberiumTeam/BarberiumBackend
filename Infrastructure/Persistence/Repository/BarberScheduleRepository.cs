@@ -1,5 +1,6 @@
 ﻿using Application.Abstraction;
 using Domain.Entity;
+using Microsoft.EntityFrameworkCore;
 
 
 namespace Infrastructure.Persistence.Repository
@@ -15,12 +16,12 @@ namespace Infrastructure.Persistence.Repository
 
         public List<BarberSchedule> GetAllBarberSchedules()
         {
-            return _context.BarbersSchedules.ToList();   
+            return _context.BarbersSchedules.Include(s => s.Barber).ToList();   
         }
 
         public BarberSchedule? GetBarberScheduleById(int Id)
         {
-            return _context.BarbersSchedules.FirstOrDefault(i => i.Id == Id);
+            return _context.BarbersSchedules.Include(s => s.Barber).FirstOrDefault(i => i.Id == Id);
         }
 
         public bool CreateBarberSchedule(BarberSchedule barberSchedule)

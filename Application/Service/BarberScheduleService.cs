@@ -23,6 +23,7 @@ namespace Application.Service
 
                 Id = BarberSchedule.Id,
                 BarberId = BarberSchedule.BarberId,
+                Barber = BarberSchedule.Barber.Name ?? string.Empty,
                 StartTime = BarberSchedule.StartTime,
                 EndTime = BarberSchedule.EndTime,
                 WeekDay = BarberSchedule.WeekDay,
@@ -43,6 +44,7 @@ namespace Application.Service
             {
                 Id = schedule.Id,
                 BarberId = schedule.BarberId,
+                Barber = schedule.Barber.Name ?? string.Empty,
                 StartTime = schedule.StartTime,
                 EndTime = schedule.EndTime,
                 WeekDay = schedule.WeekDay

@@ -9,6 +9,7 @@ public class BarberiumDbContext : DbContext
     public DbSet<Barber> Barbers { get; set; }
     public DbSet<BarberSchedule> BarbersSchedules { get; set; }
     public DbSet<ScheduleException> ScheduleExceptions { get; set; }
+    public DbSet<Turn> Turns { get; set; }
     public BarberiumDbContext(DbContextOptions<BarberiumDbContext> options) : base(options)   
     {
         

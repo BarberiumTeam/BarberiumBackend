@@ -10,7 +10,11 @@ namespace Contracts.ScheduleException.Request
 
         [Required]
         [DataType(DataType.Date)] // Sugerencia de tipo para UI/API
-        public DateOnly ExceptionDate { get; set; }
+        public DateOnly ExceptionStartDate { get; set; }
+
+        [Required]
+        [DataType(DataType.Date)] // Sugerencia de tipo para UI/API
+        public DateOnly ExceptionEndDate { get; set; }
 
         [Required]
         public TimeOnly ExceptionStartTime { get; set; }

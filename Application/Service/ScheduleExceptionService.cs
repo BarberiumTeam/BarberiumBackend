@@ -21,7 +21,9 @@ namespace Application.Service
             {
                 Id = scheduleExceptions.Id,
                 BarberId = scheduleExceptions.BarberId,
-                ExceptionDate = scheduleExceptions.ExceptionDate,
+                Barber = scheduleExceptions.Barber.Name ?? string.Empty,
+                ExceptionStartDate = scheduleExceptions.ExceptionStartDate,
+                ExceptionEndDate = scheduleExceptions.ExceptionEndDate,
                 ExceptionStartTime = scheduleExceptions.ExceptionStartTime,
                 ExceptionEndTime = scheduleExceptions.ExceptionEndTime,
                 ExceptionType = scheduleExceptions.ExceptionType
@@ -39,7 +41,9 @@ namespace Application.Service
             {
                 Id = scheduleException.Id,
                 BarberId = scheduleException.BarberId,
-                ExceptionDate = scheduleException.ExceptionDate,
+                Barber = scheduleException.Barber.Name ?? string.Empty,
+                ExceptionStartDate = scheduleException.ExceptionStartDate,
+                ExceptionEndDate = scheduleException.ExceptionEndDate,
                 ExceptionStartTime = scheduleException.ExceptionStartTime,
                 ExceptionEndTime = scheduleException.ExceptionEndTime,
                 ExceptionType = scheduleException.ExceptionType
@@ -52,7 +56,8 @@ namespace Application.Service
             var entity = new ScheduleException
             {
                 BarberId = request.BarberId,
-                ExceptionDate = request.ExceptionDate,
+                ExceptionStartDate = request.ExceptionStartDate,
+                ExceptionEndDate = request.ExceptionEndDate,
                 ExceptionStartTime = request.ExceptionStartTime,
                 ExceptionEndTime = request.ExceptionEndTime,
                 ExceptionType = request.ExceptionType
@@ -68,7 +73,8 @@ namespace Application.Service
                 return false;
             }
             if (request.ExceptionEndTime <= request.ExceptionStartTime) return false;
-            existingException.ExceptionDate = request.ExceptionDate;
+            existingException.ExceptionStartDate = request.ExceptionStartDate;
+            existingException.ExceptionEndDate = request.ExceptionEndDate;
             existingException.ExceptionStartTime = request.ExceptionStartTime;
             existingException.ExceptionEndTime = request.ExceptionEndTime;
             existingException.ExceptionType = request.ExceptionType;
