@@ -57,7 +57,7 @@ namespace Application.Service
             var ClientEntity = new Client
             {
                 Name = request.Name,
-                Email = request.Phone,
+                Email = request.Email,
                 Phone = request.Phone,
 
                 //Aca se hashea la contraseña.

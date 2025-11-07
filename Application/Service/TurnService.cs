@@ -23,10 +23,10 @@ namespace Application.Service
                 Id = turn.Id,
                 Client = turn.Client?.Name ?? string.Empty,
                 Barber = turn.Barber?.Name ?? string.Empty,
-                DateTimeTurn = turn.DateTimeTurn,
+                TurnDate = turn.TurnDate,
                 Service = turn.Service,
-                Start = turn.Start,
-                End = turn.End,
+                TurnStartTime = turn.TurnStartTime,
+                TurnEndTime = turn.TurnEndTime,
                 State = turn.State
             }).ToList();
         }
@@ -41,26 +41,26 @@ namespace Application.Service
                 Id = turn.Id,
                 Client = turn.Client?.Name ?? string.Empty,
                 Barber = turn.Barber?.Name ?? string.Empty,
-                DateTimeTurn = turn.DateTimeTurn,
+                TurnDate = turn.TurnDate,
                 Service = turn.Service,
-                Start = turn.Start,
-                End = turn.End,
+                TurnStartTime = turn.TurnStartTime,
+                TurnEndTime = turn.TurnEndTime,
                 State = turn.State
             };
         }
 
         public bool CreateTurn(CreateTurnRequest request)
         {
-            if (request.End <= request.Start) return false;
+            if (request.TurnEndTime <= request.TurnStartTime) return false;
 
             var entity = new Turn
             {
                 ClientId = request.ClientId,
                 BarberId = request.BarberId,
-                DateTimeTurn = request.DateTimeTurn,
+                TurnDate = request.TurnDate,
                 Service = request.Service,
-                Start = request.Start,
-                End = request.End,
+                TurnStartTime = request.TurnStartTime,
+                TurnEndTime = request.TurnEndTime,
                 State = State.Scheduled
             };
             return _turnRepository.CreateTurn(entity);
@@ -70,13 +70,13 @@ namespace Application.Service
         {
             var turnToUpdate = _turnRepository.GetTurnById(id);
 
-            if (turnToUpdate == null || request.End <= request.Start) return false;
+            if (turnToUpdate == null || request.TurnEndTime <= request.TurnStartTime) return false;
 
 
-            turnToUpdate.DateTimeTurn = request.DateTimeTurn;
+            turnToUpdate.TurnDate = request.TurnDate;
             turnToUpdate.Service = request.Service;
-            turnToUpdate.Start = request.Start;
-            turnToUpdate.End = request.End;
+            turnToUpdate.TurnStartTime = request.TurnStartTime;
+            turnToUpdate.TurnEndTime = request.TurnEndTime;
 
             return _turnRepository.UpdateTurn(turnToUpdate);
         }

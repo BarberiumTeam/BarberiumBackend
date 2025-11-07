@@ -9,10 +9,10 @@
         public Barber Barber {  get; set; } //Propiedad navegacion
         public Payment Payment { get; set; } //Propiedad navegacion
 
-        public DateTime DateTimeTurn {  get; set; }
         public ServiceType Service { get; set; }
-        public DateTimeOffset Start { get; set; }
-        public DateTimeOffset End { get; set; }
+        public DateOnly TurnDate { get; set; }
+        public TimeOnly TurnStartTime { get; set; }
+        public TimeOnly TurnEndTime { get; set; }
         public State State { get; set; }
 
     }

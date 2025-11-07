@@ -7,10 +7,11 @@ namespace Contracts.Turn.Response
         public string Client { get; set; } = string.Empty;
         public string Barber { get; set; } = string.Empty;
 
-        public DateTime DateTimeTurn { get; set; }
+
         public ServiceType Service { get; set; }
-        public DateTimeOffset Start { get; set; }
-        public DateTimeOffset End { get; set; }
+        public DateOnly TurnDate { get; set; }
+        public TimeOnly TurnStartTime { get; set; }
+        public TimeOnly TurnEndTime { get; set; }
         public State State { get; set; }
 
     }

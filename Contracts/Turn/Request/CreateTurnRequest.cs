@@ -13,15 +13,15 @@ namespace Contracts.Turn.Request
         public int BarberId { get; set; }
 
         [Required]
-        public DateTime DateTimeTurn { get; set; } 
-
-        [Required]
         public ServiceType Service { get; set; }
 
         [Required]
-        public DateTimeOffset Start { get; set; } 
+        public DateOnly TurnDate { get; set; }
 
         [Required]
-        public DateTimeOffset End { get; set; } 
+        public TimeOnly TurnStartTime { get; set; }
+
+        [Required]
+        public TimeOnly TurnEndTime { get; set; }
     }
 }
