@@ -52,7 +52,6 @@ namespace Application.Service
 
         public bool CreateScheduleException(CreateScheduleExceptionRequest request)
         {
-            if (request.ExceptionEndTime <= request.ExceptionStartTime) return false;
             var entity = new ScheduleException
             {
                 BarberId = request.BarberId,

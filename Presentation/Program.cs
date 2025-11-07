@@ -24,6 +24,9 @@ builder.Services.AddScoped<IScheduleExceptionRepository, ScheduleExceptionReposi
 
 builder.Services.AddScoped<ITurnService,TurnService>();
 builder.Services.AddScoped<ITurnRepository,TurnRepository>();
+
+builder.Services.AddScoped<IPaymentService, PaymentService>();
+builder.Services.AddScoped<IPaymentRepository, PaymentRepository>();
 #endregion
 
 builder.Services.AddDbContext<BarberiumDbContext>(options =>

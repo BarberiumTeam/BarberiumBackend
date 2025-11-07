@@ -18,7 +18,7 @@ namespace Presentation.Controllers
         }
     
 
-    [HttpGet]
+        [HttpGet]
         public ActionResult<IEnumerable<ScheduleExceptionResponse>> GetAllScheduleExceptions()
         {
             var scheduleExceptions = _scheduleExceptionService.GetAllScheduleExceptions();

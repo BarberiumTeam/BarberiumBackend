@@ -1,6 +1,5 @@
 ﻿using Application.Abstraction;
 using Domain.Entity;
-using System.Linq;
 
 namespace Infrastructure.Persistence.Repository;
 
