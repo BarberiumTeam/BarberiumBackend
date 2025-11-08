@@ -2,12 +2,16 @@ using Application.Abstraction;
 using Application.Service;
 using Infrastructure.Persistence;
 using Infrastructure.Persistence.Repository;
+using Infrastructure.Security;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
+using System.Text;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 
 #region Service Injections
 builder.Services.AddScoped<IClientService, ClientService>();
@@ -27,6 +31,11 @@ builder.Services.AddScoped<ITurnRepository,TurnRepository>();
 
 builder.Services.AddScoped<IPaymentService, PaymentService>();
 builder.Services.AddScoped<IPaymentRepository, PaymentRepository>();
+
+// SERVICE INJECTIONS OF AUTHENTICATION AND AUTHORIZATION
+builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IAuthRepository, AuthRepository>();
+builder.Services.AddScoped<ITokenService, TokenService>();
 #endregion
 
 builder.Services.AddDbContext<BarberiumDbContext>(options =>
@@ -34,12 +43,64 @@ builder.Services.AddDbContext<BarberiumDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
-// Correct: chain AddJsonOptions to AddControllers()
+// chain AddJsonOptions to AddControllers()
 builder.Services.AddControllers()
     .AddJsonOptions(o => o.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(setupAction => 
+{
+    setupAction.AddSecurityDefinition("ApiBearerAuth", new OpenApiSecurityScheme()
+    {
+        Type = SecuritySchemeType.Http,
+        Scheme = "Bearer",
+        Description = "Aca pegar el Token generado al loguearse"
+    });
+
+    setupAction.AddSecurityRequirement(new OpenApiSecurityRequirement()
+    {
+        {
+            new OpenApiSecurityScheme()
+            {
+                Reference = new OpenApiReference()
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "ApiBearerAuth"
+                }
+            },
+            new List<string>()
+        }
+    });
+});
+
+
+// LECTURA DE CLAVE SECRETA
+var secret = builder.Configuration["JwtSettings:SecretKey"] ??
+             throw new InvalidOperationException("JwtSettings:SecretKey no está configurado en appsettings.json.");
+var key = Encoding.ASCII.GetBytes(secret);
+
+//  CONFIGURACIÓN E INYECCIÓN DE JWT BEARER
+builder.Services.AddAuthentication(options =>
+{
+    // Usamos el esquema JWT como predeterminado para autenticar y desafiar
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(options =>
+{
+    options.RequireHttpsMetadata = false; // Usar 'true' en producción
+    options.SaveToken = true;
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = new SymmetricSecurityKey(key),
+        ValidateIssuer = false,      // No validamos quién emite el token
+        ValidateAudience = false,    // No validamos para quién es el token
+        ClockSkew = TimeSpan.Zero    // No permitimos desfase de tiempo para la expiración
+    };
+});
+
+builder.Services.AddAuthorization(); //  Asegura que el servicio de Autorización esté activado
 
 var app = builder.Build();
 
@@ -52,7 +113,8 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseAuthorization();
+app.UseAuthentication(); //  Identifica quien somos
+app.UseAuthorization(); //  Verifica si tenemos permiso
 
 app.MapControllers();
 

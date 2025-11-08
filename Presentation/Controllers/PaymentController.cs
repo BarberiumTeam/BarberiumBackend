@@ -1,6 +1,6 @@
 ﻿using Application.Service;
 using Contracts.Payment.Request;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Presentation.Controllers

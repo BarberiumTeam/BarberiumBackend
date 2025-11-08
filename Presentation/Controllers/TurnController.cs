@@ -1,6 +1,7 @@
 ﻿using Application.Service;
 using Contracts.Turn.Request;
 using Contracts.Turn.Response;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,13 +9,12 @@ namespace Presentation.Controllers
 {
 
     [Route("api/[controller]")]
+    [Authorize(Roles = "Client")] // para probar si anda la autorizacion
     [ApiController]
     public class TurnController : ControllerBase
     {
-        // ⭐️ CORREGIDO: Inyección de la interfaz de SERVICIO
         private readonly ITurnService _turnService;
 
-        // ⭐️ CORREGIDO: Constructor recibe ITurnService
         public TurnController(ITurnService turnService)
         {
             _turnService = turnService;

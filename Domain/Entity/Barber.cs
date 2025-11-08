@@ -2,11 +2,16 @@
 {
     public class Barber : BaseEntity
     {
-        public ICollection<Turn> Turns { get; set; } = new List<Turn>(); // Coleccion
-        public ICollection<BarberSchedule> Schedules { get; set; } = new List<BarberSchedule>(); // Coleccion
-        public ICollection<ScheduleException> Exceptions { get; set; } = new List<ScheduleException>(); // Coleccion
-        public string Name { get; set; }
-        public string Specialty { get; set; }
-        private string Password { get; set; }
+        public ICollection<Turn> Turns { get; set; } = new List<Turn>();
+        public ICollection<BarberSchedule> Schedules { get; set; } = new List<BarberSchedule>();
+        public ICollection<ScheduleException> Exceptions { get; set; } = new List<ScheduleException>();
+
+        // PROPIEDADES DE AUTENTICACIÓN
+        public string Name { get; set; } = string.Empty;
+        public string Email { get; set; } = string.Empty; //  USADO PARA LOGIN
+        public string PasswordHash { get; set; } = string.Empty; //  USADO PARA BCrypt
+        public string Role { get; set; } = "Barber"; //  ROL FIJO PARA AUTORIZACIÓN
+
+        public string Specialty { get; set; } = string.Empty;
     }
 }
