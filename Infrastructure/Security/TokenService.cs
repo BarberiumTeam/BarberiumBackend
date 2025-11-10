@@ -20,6 +20,9 @@ namespace Infrastructure.Security
         };
 
             // Uso de Reflection para obtener el ID y Email
+            // En este paso lo que hace Reflection es leer en tiempo de ejecucion
+            // mediante calculos, para que nos de en formato legible, que entidad
+            // y que atributos estamos usando en tiempo real.
             var userId = user.GetType().GetProperty("Id")?.GetValue(user)?.ToString();
             var userEmail = user.GetType().GetProperty("Email")?.GetValue(user)?.ToString();
 

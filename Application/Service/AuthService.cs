@@ -3,11 +3,6 @@ using Application.Security;
 using Contracts.Auth.Request;
 using Contracts.Auth.Response;
 using Domain.Entity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Application.Service
 {
@@ -22,7 +17,7 @@ namespace Application.Service
             _tokenService = tokenService;
         }
 
-        public Task<AuthResponse?> RegisterClient(RegisterRequest request)
+        public Task<AuthResponse?> RegisterClient(AuthRegisterRequest request)
         {
             if (_authRepository.EmailExists(request.Email)) return Task.FromResult<AuthResponse?>(null);
 
@@ -46,8 +41,7 @@ namespace Application.Service
             }
             return Task.FromResult<AuthResponse?>(null);
         }
-
-        public Task<AuthResponse>? RegisterBarber(RegisterRequest request)
+        public Task<AuthResponse>? RegisterBarber(AuthRegisterRequest request)
         {
             if (_authRepository.EmailExists(request.Email)) return Task.FromResult<AuthResponse?>(null);
             var barber = new Barber
@@ -72,7 +66,7 @@ namespace Application.Service
         }
 
 
-        public Task<AuthResponse?> Login(LoginRequest request)
+        public Task<AuthResponse?> Login(AuthLoginRequest request)
         {
             var user = _authRepository.GetUserByEmail(request.Email);
             if (user == null) return Task.FromResult<AuthResponse?>(null);

@@ -2,7 +2,7 @@
 
 namespace Contracts.Auth.Request
 {
-    public class RegisterRequest
+    public class AuthRegisterRequest
     {
         [Required] public string Name { get; set; } = string.Empty;
         [Required][EmailAddress] public string Email { get; set; } = string.Empty;

@@ -9,6 +9,7 @@ namespace Application.Service
     public interface ITokenService
     {
         // Recibe el objeto del usuario (Client/Barber) y su rol
+        // Nos estamos dirigiendo 
         string GenerateToken(object user, string role);
     }
 }

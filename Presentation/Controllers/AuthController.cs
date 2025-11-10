@@ -1,5 +1,6 @@
 ﻿using Application.Service;
 using Contracts.Auth.Request;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Presentation.Controllers
@@ -16,14 +17,20 @@ namespace Presentation.Controllers
         }
 
         [HttpPost("register/client")]
-        public async Task<IActionResult> RegisterClient([FromBody] RegisterRequest request)
+        public async Task<IActionResult> RegisterClient([FromBody] AuthRegisterRequest request)
         {
             var response = await _authService.RegisterClient(request);
             return response == null ? BadRequest("El email ya está registrado.") : Ok(response);
         }
+        [HttpPost("register/barber")]
+        public async Task<IActionResult> RegisterBarber([FromBody] AuthRegisterRequest request)
+        {
+            var response = await _authService.RegisterBarber(request);
+            return response == null ? BadRequest("El email ya esta registrado. ") : Ok(response);
+        }
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody] LoginRequest request)
+        public async Task<IActionResult> Login([FromBody] AuthLoginRequest request)
         {
             var response = await _authService.Login(request);
             return response == null ? Unauthorized("Email o contraseña inválidos.") : Ok(response);

@@ -1,10 +1,5 @@
 ﻿using Application.Abstraction;
 using Domain.Entity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Infrastructure.Persistence.Repository
 {
@@ -22,7 +17,6 @@ namespace Infrastructure.Persistence.Repository
             var barber = _context.Barbers.FirstOrDefault(b => b.Email == email);
             return barber;
         }
-
         public bool EmailExists(string email)
         {
             return _context.Clients.Any(c => c.Email == email) ||
