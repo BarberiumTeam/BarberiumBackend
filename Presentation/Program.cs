@@ -1,5 +1,6 @@
 using Application.Abstraction;
 using Application.Service;
+using Infrastructure.ExternalServices;
 using Infrastructure.Persistence;
 using Infrastructure.Persistence.Repository;
 using Infrastructure.Security;
@@ -7,6 +8,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Polly;
 using System.Text;
 using System.Text.Json.Serialization;
 
@@ -36,6 +38,10 @@ builder.Services.AddScoped<IPaymentRepository, PaymentRepository>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IAuthRepository, AuthRepository>();
 builder.Services.AddScoped<ITokenService, TokenService>();
+
+//EXTERNAL SERVICES INJECTIONS
+builder.Services.AddScoped<IInfoService, InfoService>();
+
 #endregion
 
 builder.Services.AddDbContext<BarberiumDbContext>(options =>
@@ -99,6 +105,27 @@ builder.Services.AddAuthentication(options =>
         ClockSkew = TimeSpan.Zero    // No permitimos desfase de tiempo para la expiración
     };
 });
+
+// 1. LECTURA DE CONFIGURACIÓN DE POLLY (Simplificada)
+var pollyConfig = builder.Configuration
+    .GetSection("PollySettings")
+    .Get<PollySettings>() ?? throw new InvalidOperationException("PollySettings no encontrado.");
+
+var retryPolicy = ResiliencePolicies.GetRetryPolicy(pollyConfig);
+var circuitBreakerPolicy = ResiliencePolicies.GetCircuitBreakerPolicy(pollyConfig);
+
+// 2. REGISTRO Y ACOPLAMIENTO DE HTTPCLIENT Y POLLY
+builder.Services.AddHttpClient<Application.Abstraction.IDollarClient, Infrastructure.ExternalServices.DolarClient>(client =>
+{
+    // Esto leerá "https://dolarapi.com/v1/dolares/blue" del appsettings.json
+    client.BaseAddress = new Uri(builder.Configuration["ExternalServices:DollarApi:BaseUrl"]
+        ?? throw new InvalidOperationException("ExternalServices:DollarApi:BaseUrl no configurado."));
+
+    client.Timeout = TimeSpan.FromSeconds(30);
+})
+// Primero el Cortacircuitos (para fallos graves), luego el Reintento (para fallos transitorios)
+.AddPolicyHandler(circuitBreakerPolicy)
+.AddPolicyHandler(retryPolicy);
 
 builder.Services.AddAuthorization(); //  Asegura que el servicio de Autorización esté activado
 
