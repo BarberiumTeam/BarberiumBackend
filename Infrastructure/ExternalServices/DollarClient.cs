@@ -7,6 +7,8 @@ namespace Infrastructure.ExternalServices
 {
     public class DolarClient : IDollarClient
     {
+        // No se inyecta el BarberiumDbContext, ya que en esta ocasion 
+        // No estamos trayendo cosas de nuestro servidor, si no, de uno externo.
         private readonly HttpClient _httpClient;
 
         public DolarClient(HttpClient httpClient)
@@ -14,16 +16,12 @@ namespace Infrastructure.ExternalServices
             _httpClient = httpClient;
         }
 
-        public async Task<IReadOnlyList<DolarRateDto>> GetRatesAsync(CancellationToken cancellationToken = default)
+        public async Task<DolarRateDto?> GetBlueRateAsync(CancellationToken cancellationToken = default)
         {
-            // Usamos ruta relativa vacía ("") porque la BaseUrl en appsettings.json es el endpoint final.
-            var url = "";
+            var url = ""; // Ruta vacía, ya que la BaseUrl es el endpoint final.
 
-            // La API devuelve UN solo objeto DolarRateDto.
-            var rate = await _httpClient.GetFromJsonAsync<DolarRateDto>(url, cancellationToken);
-
-            // Devolvemos el resultado como una lista de un solo elemento (para mantener el contrato IDollarClient).
-            return rate != null ? new List<DolarRateDto> { rate } : new List<DolarRateDto>();
+            return await _httpClient.GetFromJsonAsync<DolarRateDto>(url, cancellationToken);
         }
+
     }
 }

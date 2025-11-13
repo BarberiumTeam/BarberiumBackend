@@ -5,6 +5,6 @@ namespace Application.Abstraction
 {
     public interface IDollarClient
     {
-        Task<IReadOnlyList<DolarRateDto>> GetRatesAsync(CancellationToken cancellationToken = default);
+      Task<DolarRateDto?> GetBlueRateAsync(CancellationToken cancellationToken = default);
     }
 }

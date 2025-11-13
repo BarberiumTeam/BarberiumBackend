@@ -6,7 +6,7 @@ namespace Infrastructure.ExternalServices
 {
     public static class ResiliencePolicies
     {
-        // 1. Política de Reintento
+        // 1. Política de WAIT AND RETRY
         public static IAsyncPolicy<HttpResponseMessage> GetRetryPolicy(PollySettings config)
         {
             return HttpPolicyExtensions
@@ -21,7 +21,7 @@ namespace Infrastructure.ExternalServices
                 );
         }
 
-        // 2. Política de Cortacircuitos
+        // 2. Política de CIRCUIT BREAKER
         public static IAsyncPolicy<HttpResponseMessage> GetCircuitBreakerPolicy(PollySettings config)
         {
             return HttpPolicyExtensions

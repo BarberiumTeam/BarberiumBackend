@@ -123,7 +123,7 @@ builder.Services.AddHttpClient<Application.Abstraction.IDollarClient, Infrastruc
 
     client.Timeout = TimeSpan.FromSeconds(30);
 })
-// Primero el Cortacircuitos (para fallos graves), luego el Reintento (para fallos transitorios)
+// Primero el Circuit breaker (para fallos graves), luego el wait and Retry (para fallos transitorios)
 .AddPolicyHandler(circuitBreakerPolicy)
 .AddPolicyHandler(retryPolicy);
 
