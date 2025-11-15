@@ -10,7 +10,6 @@ namespace Application.Abstraction
         List<Client> GetAllClients();  // debido a que necesitan solo un response, porque devuelven lo mismo.
 
         // Esto son WriteOnly porque modifican y esperan una respuesta booleana
-        bool CreateClient(Client client);
         bool UpdateClient(Client client);
         bool DeleteClient(int id);
     }

@@ -26,7 +26,6 @@ namespace Infrastructure.Persistence.Repository
         public bool AddClient(Client client)
         {
             _context.Clients.Add(client);
-            // En un proyecto real se usa SaveChangesAsync()
             return _context.SaveChanges() > 0;
         }
 

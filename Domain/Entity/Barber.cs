@@ -12,6 +12,6 @@
         public string PasswordHash { get; set; } = string.Empty; //  USADO PARA BCrypt
         public string Role { get; set; } = "Barber"; //  ROL FIJO PARA AUTORIZACIÓN
 
-        public string Specialty { get; set; } = string.Empty;
+        public string Phone { get; set; } = string.Empty;
     }
 }

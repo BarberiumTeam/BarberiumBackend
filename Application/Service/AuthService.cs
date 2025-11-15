@@ -25,6 +25,7 @@ namespace Application.Service
             {
                 Name = request.Name,
                 Email = request.Email,
+                Phone = request.Phone,
                 PasswordHash = PasswordHasher.Hash(request.Password), //  HASHING
                 Role = "Client"
             };
@@ -48,9 +49,9 @@ namespace Application.Service
             {
                 Name = request.Name,
                 Email = request.Email,
+                Phone = request.Phone,
                 PasswordHash = PasswordHasher.Hash(request.Password), //  HASHING
-                Role = "Barber",
-                Specialty = "General"
+                Role = "Barber"
             };
             if (_authRepository.AddBarber(barber))
             {

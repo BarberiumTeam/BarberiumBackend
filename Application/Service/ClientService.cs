@@ -49,21 +49,6 @@ namespace Application.Service
 
         }
 
-        public bool CreateClient(CreateClientRequest request)
-        {
-            // Aca iria la logica de negocio ej: Si el email existe
-
-            // Esto es el mapeo del DTO a entidad dominio
-            var ClientEntity = new Client
-            {
-                Name = request.Name,
-                Email = request.Email,
-                Phone = request.Phone,
-
-                //Aca se hashea la contraseña.
-            };
-            return _clientRepository.CreateClient(ClientEntity);
-        }
 
         public bool UpdateClient(int id, UpdateClientRequest request)
         {

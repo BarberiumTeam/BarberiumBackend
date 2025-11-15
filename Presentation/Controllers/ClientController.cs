@@ -37,18 +37,6 @@ namespace Presentation.Controllers
             return Ok(client);
         }
 
-        [HttpPost]
-        public IActionResult CreateClient([FromBody] CreateClientRequest request)
-        {
-            bool success = _clientService.CreateClient(request);
-
-            if (!success)
-            {
-                return BadRequest("No se creo el cliente, revise nuevamente los datos");
-            }
-
-            return Created();
-        }
 
         [HttpPut("{id}")]
         public IActionResult UpdateClient(int id, [FromBody] UpdateClientRequest request)

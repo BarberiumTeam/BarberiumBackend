@@ -14,7 +14,6 @@ namespace Application.Abstraction
         List<Barber> GetAllBarbers();  
 
         // Esto son WriteOnly porque modifican y esperan una respuesta booleana
-        bool CreateBarber(Barber barber);
         bool UpdateBarber(Barber barber);
         bool DeleteBarber(int id);
     }

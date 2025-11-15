@@ -8,7 +8,6 @@ namespace Application.Service
         List<BarberResponse> GetAllBarbers();
         BarberResponse? GetBarberById(int barberId);
 
-        bool CreateBarber(CreateBarberRequest request);
         bool UpdateBarber(int id, UpdateBarberRequest request);
         bool DeleteBarber(int id);
     }

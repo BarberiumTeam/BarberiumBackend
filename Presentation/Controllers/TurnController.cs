@@ -9,7 +9,6 @@ namespace Presentation.Controllers
 {
 
     [Route("api/[controller]")]
-    [Authorize(Roles = "Client")] // para probar si anda la autorizacion
     [ApiController]
     public class TurnController : ControllerBase
     {
@@ -21,12 +20,14 @@ namespace Presentation.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Barber")]
         public ActionResult<IEnumerable<TurnResponse>> GetAll()
         {
             return Ok(_turnService.GetAllTurns());
         }
 
         [HttpGet("{id}")]
+        [Authorize(Roles = "Barber,Client")]  // se usa una coma para separar multiples roles
         public ActionResult<TurnResponse?> GetById(int id)
         {
             var turn = _turnService.GetTurnById(id);
@@ -34,46 +35,51 @@ namespace Presentation.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Client")]
         public IActionResult Create([FromBody] CreateTurnRequest request)
         {
             if (_turnService.CreateTurn(request))
             {
                 return Created();
             }
-            return BadRequest("No se pudo crear el turno. Revise los datos.");
+            return BadRequest("No se pudo crear el turno. Verifique que el cliente, el barbero existan y que el horario esté disponible.");
         }
 
         [HttpPut("{id}")]
+        [Authorize(Roles = "Client")]
         public IActionResult Update(int id, [FromBody] UpdateTurnRequest request)
         {
             if (_turnService.UpdateTurn(id, request))
             {
                 return NoContent();
             }
-            return NotFound($"Turno con ID {id} no encontrado o datos inválidos.");
+            return BadRequest("No se pudo actualizar el turno. Verifique que el horario sea válido o no se solape con otro turno");
         }
 
         [HttpPatch("{id}/state")]
+        [Authorize(Roles = "Barber")]
         public IActionResult UpdateTurnState(int id, [FromBody] UpdateTurnStateRequest request)
         {
             if (_turnService.UpdateTurnState(id, request.NewState))
             {
                 return NoContent();
             }
-            return BadRequest($"No se pudo actualizar el estado del turno {id}.");
+            return NotFound($"Turno con ID {id} no encontrado.");
         }
 
         [HttpPatch("{id}/service")]
+        [Authorize(Roles = "Client")]
         public IActionResult UpdateTurnServiceType(int id, [FromBody] UpdateTurnServiceTypeRequest request)
         {
             if (_turnService.UpdateTurnServiceType(id, request.NewServiceType))
             {
                 return NoContent();
             }
-            return BadRequest($"No se pudo actualizar el tipo de servicio del turno {id}.");
+            return NotFound($"Turno con ID {id} no encontrado.");
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Client")]
         public IActionResult Delete(int id)
         {
             if (_turnService.DeleteTurn(id))

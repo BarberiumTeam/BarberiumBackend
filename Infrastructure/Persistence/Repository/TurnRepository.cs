@@ -63,6 +63,58 @@ namespace Infrastructure.Persistence.Repository
             return _context.SaveChanges() > 0;
         }
 
+        // --- NUEVAS IMPLEMENTACIONES DE VERIFICACIÓN SÍNCRONA ---
+
+        public bool ExistsClient(int clientId)
+        {
+            // Usamos Any() para verificar la existencia sin traer la entidad completa.
+            return _context.Clients.Any(c => c.Id == clientId);
+        }
+
+        public bool ExistsBarber(int barberId)
+        {
+            // Usamos Any() para verificar la existencia sin traer la entidad completa.
+            return _context.Barbers.Any(b => b.Id == barberId);
+        }
+
+        // Implementación para la validación en la CREACIÓN
+
+        public bool IsTimeSlotBooked(int barberId, DateOnly date, TimeOnly startTime, TimeOnly endTime)
+        {
+            // Lógica para la superposición de turnos.
+
+            // 1. Filtrar por Barbero y Fecha
+            // 2. Filtrar por aquellos turnos que están:
+            //    a) Empezando antes de que termine el nuevo Y
+            //    b) Terminando después de que empiece el nuevo
+
+            return _context.Turns.Any(t =>
+                t.BarberId == barberId &&
+                t.TurnDate == date &&
+
+                // Criterio de superposición 
+                t.TurnStartTime < endTime &&
+                t.TurnEndTime > startTime
+            );
+        }
+
+        // Implementación para la validación en la ACTUALIZACIÓN
+        public bool IsTimeSlotBooked2(int barberId, DateOnly date, TimeOnly startTime, TimeOnly endTime, int turnIdToExclude)
+        {
+            // Utilizamos el mismo criterio de superposición, pero añadimos la exclusión.
+            return _context.Turns.Any(t =>
+                t.BarberId == barberId &&
+                t.TurnDate == date &&
+
+                // Criterio de superposición: [A empieza antes de B termina] Y [A termina después de B empieza]
+                t.TurnStartTime < endTime &&
+                t.TurnEndTime > startTime &&
+
+                // CRITERIO DE EXCLUSIÓN: Ignoramos el turno con el ID que estamos actualizando.
+                t.Id != turnIdToExclude
+            );
+        }
+
     }
 
 }

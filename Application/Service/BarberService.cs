@@ -28,7 +28,8 @@ namespace Application.Service
             {
                 Id = barber.Id,
                 Name = barber.Name,
-                Specialty = barber.Specialty
+                Email = barber.Email,
+                Phone = barber.Phone
 
             }).ToList();
         }
@@ -47,26 +48,12 @@ namespace Application.Service
             {
                 Id = barber.Id,
                 Name = barber.Name,
-                Specialty = barber.Specialty
-
+                Email = barber.Email,
+                Phone = barber.Phone
             };
 
         }
 
-        public bool CreateBarber(CreateBarberRequest request)
-        {
-            // Aca iria la logica de negocio ej: Si el email existe
-
-            // Esto es el mapeo del DTO a entidad dominio
-            var BarberEntity = new Barber
-            {
-                Name = request.Name,
-                Specialty = request.Specialty
-
-                //Aca se hashea la contraseña.
-            };
-            return _barberRepository.CreateBarber(BarberEntity);
-        }
 
         public bool UpdateBarber(int id, UpdateBarberRequest request)
         {
@@ -77,7 +64,8 @@ namespace Application.Service
                 return false;
             }
             BarberToUpdate.Name = request.Name;
-            BarberToUpdate.Specialty = request.Specialty;
+            BarberToUpdate.Email = request.Email;
+            BarberToUpdate.Phone = request.Phone;
 
             return _barberRepository.UpdateBarber(BarberToUpdate);
         }

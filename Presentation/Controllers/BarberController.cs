@@ -37,18 +37,6 @@ namespace Presentation.Controllers
             return Ok(barber);
         }
 
-        [HttpPost]
-        public IActionResult CreateBarber([FromBody] CreateBarberRequest request)
-        {
-            bool success = _barberService.CreateBarber(request);
-
-            if (!success)
-            {
-                return BadRequest("No se creo el barbero, revise nuevamente los datos");
-            }
-
-            return Created();
-        }
 
         [HttpPut("{id}")]
         public IActionResult UpdateClient(int id, [FromBody] UpdateBarberRequest request)

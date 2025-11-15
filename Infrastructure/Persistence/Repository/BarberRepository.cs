@@ -22,11 +22,6 @@ namespace Infrastructure.Persistence.Repository
             return _context.Barbers.FirstOrDefault(i => i.Id == id);
         }
 
-        public bool CreateBarber(Barber barber)
-        {
-            _context.Barbers.Add(barber);
-            return _context.SaveChanges() > 0;
-        }
 
         public bool UpdateBarber(Barber barber)
         {
