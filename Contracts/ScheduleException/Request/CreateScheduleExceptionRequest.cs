@@ -10,19 +10,19 @@ namespace Contracts.ScheduleException.Request
 
         [Required(ErrorMessage = "Debe especificar una fecha inicial")]
         [DataType(DataType.Date)] // Sugerencia de tipo para UI/API
-        public DateOnly? ExceptionStartDate { get; set; }
+        public DateOnly ExceptionStartDate { get; set; }
 
         [Required(ErrorMessage = "Debe especificar una fecha final")]
         [DataType(DataType.Date)] // Sugerencia de tipo para UI/API
-        public DateOnly? ExceptionEndDate { get; set; }
+        public DateOnly ExceptionEndDate { get; set; }
 
         [Required(ErrorMessage = "Debe especificar un horario incial.")]
         [DataType(DataType.Time)]
-        public TimeOnly? ExceptionStartTime { get; set; }
+        public TimeOnly ExceptionStartTime { get; set; }
 
         [Required(ErrorMessage = "Debe especificar un horario final.")]
         [DataType(DataType.Time)]
-        public TimeOnly? ExceptionEndTime { get; set; }
+        public TimeOnly ExceptionEndTime { get; set; }
 
 
         [Required(ErrorMessage = "Debe especificar un tipo de excepción.")]

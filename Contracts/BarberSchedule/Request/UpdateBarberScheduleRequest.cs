@@ -1,7 +1,6 @@
 ﻿using Domain.Entity;
 using System.ComponentModel.DataAnnotations;
 
-
 namespace Contracts.BarberSchedule.Request
 {
     public class UpdateBarberScheduleRequest
@@ -10,10 +9,11 @@ namespace Contracts.BarberSchedule.Request
         public int BarberId { get; set; }
 
         [Required(ErrorMessage = "La hora de inicio es obligatoria.")]
+        [DataType(DataType.Time)]
         public TimeOnly StartTime { get; set; }
 
         [Required(ErrorMessage = "La hora de fin es obligatoria.")]
-        // La lógica de que EndTime > StartTime la vamos a implementar en el servicio.
+        [DataType(DataType.Time)]
         public TimeOnly EndTime { get; set; }
 
         [Required(ErrorMessage = "El día de la semana es obligatorio.")]

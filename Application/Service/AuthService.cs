@@ -42,7 +42,7 @@ namespace Application.Service
             }
             return Task.FromResult<AuthResponse?>(null);
         }
-        public Task<AuthResponse>? RegisterBarber(AuthRegisterRequest request)
+        public Task<AuthResponse?> RegisterBarber(AuthRegisterRequest request)
         {
             if (_authRepository.EmailExists(request.Email)) return Task.FromResult<AuthResponse?>(null);
             var barber = new Barber
