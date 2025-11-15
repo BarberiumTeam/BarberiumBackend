@@ -10,8 +10,8 @@ namespace Contracts.Turn.Request
 {
     public class UpdateTurnStateRequest
     {
-        [Required]
-        [EnumDataType(typeof(State))]
+        [Required(ErrorMessage = "Ingresa un estado")]
+        [EnumDataType(typeof(State), ErrorMessage = "Ingrese un nuevo estado valido")]
         public State NewState { get; set; }
     }
 }

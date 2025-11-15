@@ -10,8 +10,8 @@ namespace Contracts.Turn.Request
 {
     public class UpdateTurnServiceTypeRequest
     {
-        [Required]
-        [EnumDataType(typeof(ServiceType))]
+        [Required(ErrorMessage = "Debe especificar un tipo de servicio.")]
+        [EnumDataType(typeof(ServiceType), ErrorMessage = "Ingrese un nuevo servicio valido")]
         public ServiceType NewServiceType { get; set; }
     }
 }

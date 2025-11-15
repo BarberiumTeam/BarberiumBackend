@@ -7,22 +7,24 @@ namespace Contracts.ScheduleException.Request
     public class UpdateScheduleExceptionRequest
     {
         // Solo permitimos actualizar los detalles de la excepción, no el Barbero.
-        [Required]
-        [DataType(DataType.Date)] 
-        public DateOnly ExceptionStartDate { get; set; }
+        [Required(ErrorMessage = "Debe especificar una fecha inicial")]
+        [DataType(DataType.Date)] // Sugerencia de tipo para UI/API
+        public DateOnly? ExceptionStartDate { get; set; }
 
-        [Required]
-        [DataType(DataType.Date)] 
-        public DateOnly ExceptionEndDate { get; set; }
+        [Required(ErrorMessage = "Debe especificar una fecha final")]
+        [DataType(DataType.Date)] // Sugerencia de tipo para UI/API
+        public DateOnly? ExceptionEndDate { get; set; }
 
-        [Required]
-        public TimeOnly ExceptionStartTime { get; set; }
+        [Required(ErrorMessage = "Debe especificar un horario incial.")]
+        [DataType(DataType.Time)]
+        public TimeOnly? ExceptionStartTime { get; set; }
 
-        [Required]
-        public TimeOnly ExceptionEndTime { get; set; }
+        [Required(ErrorMessage = "Debe especificar un horario final.")]
+        [DataType(DataType.Time)]
+        public TimeOnly? ExceptionEndTime { get; set; }
 
-        [Required]
-        [EnumDataType(typeof(ExceptionType))]
+        [Required(ErrorMessage = "Debe especificar un tipo de excepción.")]
+        [EnumDataType(typeof(ExceptionType), ErrorMessage = "El nombre de excepción no es válido.")]
         public ExceptionType ExceptionType { get; set; }
     }
 }
