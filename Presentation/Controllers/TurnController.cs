@@ -42,7 +42,11 @@ namespace Presentation.Controllers
             {
                 return Created();
             }
-            return BadRequest("No se pudo crear el turno. Verifique que el cliente, el barbero existan y que el horario esté disponible.");
+            return BadRequest($"No se pudo crear el turno. " +
+                              $"\n\nVerifique 1) Que la hora de fin sea posterior a la hora de inicio." +
+                              $"\nVerifique 2) Que el Cliente y Barbero existan." +
+                              $"\nVerifique 3) Que el Barbero esté disponible (dentro de su horario y sin excepciones)." +
+                              $"\nVerifique 4) Que el horario elegido no se solape con otro turno ya existente.");
         }
 
         [HttpPut("{id}")]
@@ -53,7 +57,10 @@ namespace Presentation.Controllers
             {
                 return NoContent();
             }
-            return BadRequest("No se pudo actualizar el turno. Verifique que el horario sea válido o no se solape con otro turno");
+            return BadRequest($"No se pudo actualizar el turno con ID {id}. " +
+                              $"\n\nVerifique 1) Que el Turno exista y que la hora de fin sea posterior a la hora de inicio." +
+                              $"\nVerifique 2) Que el Barbero esté disponible en el nuevo horario (dentro de su horario y sin excepciones)." +
+                              $"\nVerifique 3) Que el nuevo horario no se solape con otro turno ya existente del Barbero.");
         }
 
         [HttpPatch("{id}/state")]

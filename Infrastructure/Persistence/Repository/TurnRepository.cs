@@ -115,6 +115,28 @@ namespace Infrastructure.Persistence.Repository
             );
         }
 
+        // --- NUEVAS IMPLEMENTACIONES DE HORARIOS Y EXCEPCIONES ---
+
+        public List<BarberSchedule> GetBarberSchedules(int barberId)
+        {
+            // Devuelve todos los horarios semanales definidos para ese barbero.
+            // Usamos ToList() para ejecutar la consulta de forma síncrona.
+            return _context.BarbersSchedules
+                .Where(s => s.BarberId == barberId)
+                .ToList();
+        }
+
+        public List<ScheduleException> GetScheduleExceptionsByDate(int barberId, DateOnly date)
+        {
+            // Devuelve las excepciones donde la fecha del turno cae dentro del rango de la excepción.
+            // Usamos ToList() para ejecutar la consulta de forma síncrona.
+            return _context.ScheduleExceptions.Where(e =>
+                e.BarberId == barberId &&
+                date >= e.ExceptionStartDate &&
+                date <= e.ExceptionEndDate
+            ).ToList();
+        }
+
     }
 
 }

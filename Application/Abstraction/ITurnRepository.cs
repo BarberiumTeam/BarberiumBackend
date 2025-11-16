@@ -22,5 +22,11 @@ namespace Application.Abstraction
         // para la validacion de turnos solapados pero en la ACTUALIZACION, con un parametro mas.
         bool IsTimeSlotBooked2(int barberId, DateOnly date, TimeOnly startTime, TimeOnly endTime, int turnIdToExclude);
 
+        // Devuelve todos los horarios semanales definidos para un barbero.
+        List<BarberSchedule> GetBarberSchedules(int barberId);
+
+        // Devuelve todas las excepciones de horario para un barbero en una fecha específica.
+        List<ScheduleException> GetScheduleExceptionsByDate(int barberId, DateOnly date);
+
     }
 }
