@@ -140,6 +140,8 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
+
 app.UseAuthentication(); //  Identifica quien somos
 app.UseAuthorization(); //  Verifica si tenemos permiso
 
