@@ -21,7 +21,7 @@ namespace Application.Service
             {
                 Id = scheduleExceptions.Id,
                 BarberId = scheduleExceptions.BarberId,
-                Barber = scheduleExceptions.Barber.Name ?? string.Empty,
+                Barber = scheduleExceptions.Barber?.Name ?? string.Empty,
                 ExceptionStartDate = scheduleExceptions.ExceptionStartDate,
                 ExceptionEndDate = scheduleExceptions.ExceptionEndDate,
                 ExceptionStartTime = scheduleExceptions.ExceptionStartTime,
@@ -41,7 +41,7 @@ namespace Application.Service
             {
                 Id = scheduleException.Id,
                 BarberId = scheduleException.BarberId,
-                Barber = scheduleException.Barber.Name ?? string.Empty,
+                Barber = scheduleException.Barber?.Name ?? string.Empty,
                 ExceptionStartDate = scheduleException.ExceptionStartDate,
                 ExceptionEndDate = scheduleException.ExceptionEndDate,
                 ExceptionStartTime = scheduleException.ExceptionStartTime,
