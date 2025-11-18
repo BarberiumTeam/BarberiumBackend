@@ -5,9 +5,9 @@
         public int ClientId { get; set; } // FK
         public int BarberId { get; set; } // FK
 
-        public Client Client { get; set; } //Propiedad navegacion
-        public Barber Barber {  get; set; } //Propiedad navegacion
-        public Payment Payment { get; set; } //Propiedad navegacion
+        public Client? Client { get; set; } //Propiedad navegacion
+        public Barber? Barber {  get; set; } //Propiedad navegacion
+        public Payment? Payment { get; set; } //Propiedad navegacion
 
         public ServiceType Service { get; set; }
         public DateOnly TurnDate { get; set; }

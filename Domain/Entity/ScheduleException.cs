@@ -3,7 +3,7 @@
     public class ScheduleException : BaseEntity
     {
         public int BarberId { get; set; }
-        public Barber Barber {  get; set; }
+        public Barber? Barber {  get; set; }
         public DateOnly ExceptionStartDate { get; set; }
         public DateOnly ExceptionEndDate { get; set; }
         public TimeOnly ExceptionStartTime { get; set; }
