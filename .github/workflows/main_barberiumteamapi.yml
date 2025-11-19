@@ -48,6 +48,7 @@ jobs:
     steps:
       - name: Checkout source code
         uses: actions/checkout@v4
+        
       - name: Set up .NET Core
         uses: actions/setup-dotnet@v4
         with:
@@ -57,7 +58,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: .net-app
-      
+          
       - name: Login to Azure
         uses: azure/login@v2
         with:
@@ -65,11 +66,10 @@ jobs:
           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_C49D73C3F6F8420C9CF327CAAC088C12 }}
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_DC95782803444C639C793DC5F79B152F }}
 
-      - name: Install dotnet-ef tool
-        run: dotnet tool install --global dotnet-ef --version 8.*
-          
       - name: Update database with EF Core migrations
-        run: dotnet ef database update --project Infrastructure/Infrastructure.csproj --startup-project Presentation/Presentation.csproj
+        run: |
+          dotnet tool install --global dotnet-ef --version 8.*
+          dotnet ef database update --project Infrastructure/Infrastructure.csproj --startup-project Presentation/Presentation.csproj --connection "${{ secrets.AZURE_SQL_CONNECTION_STRING }}"
         env:
           ASPNETCORE_ENVIRONMENT: Production
 
@@ -80,4 +80,3 @@ jobs:
           app-name: 'BarberiumTeamApi'
           slot-name: 'Production'
           package: .
-          
