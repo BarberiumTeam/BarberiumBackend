@@ -46,7 +46,7 @@ builder.Services.AddScoped<IInfoService, InfoService>();
 
 builder.Services.AddDbContext<BarberiumDbContext>(options =>
 {
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
 // chain AddJsonOptions to AddControllers()

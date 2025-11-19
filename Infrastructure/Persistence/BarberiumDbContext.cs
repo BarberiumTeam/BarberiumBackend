@@ -15,4 +15,15 @@ public class BarberiumDbContext : DbContext
     {
         
     }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        base.OnModelCreating(modelBuilder);
+
+        // Esta configuración es parte de la Infraestructura (mapeo SQL Server)
+        modelBuilder.Entity<Payment>()
+            .Property(p => p.Amount)
+            .HasPrecision(18, 4); // Especifica decimal(18, 4) para SQL Server
+    }
+
 }
