@@ -6,6 +6,7 @@ namespace Contracts.ScheduleException.Request
 {
     public class UpdateScheduleExceptionRequest
     {
+        public int BarberId { get; set; }
         // Solo permitimos actualizar los detalles de la excepción, no el Barbero.
         [Required(ErrorMessage = "Debe especificar una fecha inicial")]
         [DataType(DataType.Date)] // Sugerencia de tipo para UI/API

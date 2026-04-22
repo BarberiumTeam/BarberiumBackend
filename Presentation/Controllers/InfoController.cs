@@ -18,7 +18,6 @@ namespace Presentation.Controllers
         }
 
         [HttpGet("dolar/blue/venta")]
-        [AllowAnonymous] // Permitimos acceso público (sin JWT)
         public async Task<IActionResult> GetBlueDolarPrice(CancellationToken cancellationToken)
         {
             // Llama a la lógica de negocio, que a su vez ejecuta el cliente resiliente (con Polly)

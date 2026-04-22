@@ -1,7 +1,6 @@
 ﻿using Application.Service;
 using Contracts.ScheduleException.Response;
 using Contracts.ScheduleException.Request;
-
 using Microsoft.AspNetCore.Mvc;
 
 namespace Presentation.Controllers
@@ -16,7 +15,6 @@ namespace Presentation.Controllers
         {
             _scheduleExceptionService = scheduleExceptionService;
         }
-    
 
         [HttpGet]
         public ActionResult<IEnumerable<ScheduleExceptionResponse>> GetAllScheduleExceptions()
@@ -39,36 +37,46 @@ namespace Presentation.Controllers
         [HttpPost]
         public IActionResult CreateScheduleException([FromBody] CreateScheduleExceptionRequest request)
         {
-            bool success = _scheduleExceptionService.CreateScheduleException(request);
-            if (!success)
+            if (_scheduleExceptionService.CreateScheduleException(request))
             {
-                return BadRequest("No se creo la excepcion de horario, revise nuevamente los datos");
+                return Created();
             }
-            return Created();
+
+            return BadRequest("No se pudo crear la excepción de horario. " +
+                             "\n\nVerifique 1) Que el Barbero exista." +
+                             "\nVerifique 2) Que la fecha de inicio sea de hoy en adelante." +
+                             "\nVerifique 3) Que la fecha de fin sea igual o posterior a la de inicio." +
+                             "\nVerifique 4) Que, si es el mismo día, la hora de fin sea posterior a la de inicio.");
         }
 
         [HttpPut("{id}")]
         public IActionResult UpdateScheduleException(int id, [FromBody] UpdateScheduleExceptionRequest request)
         {
-            if (id <= 0) return BadRequest("Id invalido");
-            bool success = _scheduleExceptionService.UpdateScheduleException(id, request);
-            if (!success)
+            if (id <= 0) return BadRequest("Id inválido");
+
+            if (_scheduleExceptionService.UpdateScheduleException(id, request))
             {
-                return BadRequest("No se actualizo la excepcion de horario, revise nuevamente los datos");
+                return NoContent();
             }
-            return NoContent();
+
+            return BadRequest($"No se pudo actualizar la excepción con ID {id}. " +
+                             "\n\nVerifique 1) Que la excepción exista y el Barbero sea válido." +
+                             "\nVerifique 2) Que la fecha de inicio sea de hoy en adelante." +
+                             "\nVerifique 3) Que la fecha de fin sea igual o posterior a la de inicio." +
+                             "\nVerifique 4) Que los rangos de horario sean lógicos (Inicio < Fin).");
         }
 
         [HttpDelete("{id}")]
         public IActionResult DeleteScheduleException(int id)
         {
-            if (id <= 0) return BadRequest("Id invalido");
-            bool success = _scheduleExceptionService.DeleteScheduleException(id);
-            if (!success)
+            if (id <= 0) return BadRequest("Id inválido");
+
+            if (_scheduleExceptionService.DeleteScheduleException(id))
             {
-                return NotFound();
+                return NoContent();
             }
-            return NoContent();
+
+            return NotFound($"No se encontró la excepción con ID {id} para eliminar.");
         }
     }
 }

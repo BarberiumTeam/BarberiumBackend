@@ -56,6 +56,15 @@ namespace Application.Service
 
         public bool CreateTurn(CreateTurnRequest request)
         {
+            var today = DateOnly.FromDateTime(DateTime.Now);
+            var nowTime = TimeOnly.FromDateTime(DateTime.Now);
+
+            // 0. Validación de fechas pasadas
+            if (request.TurnDate < today) return false;
+
+            // Si es hoy, validar que la hora de inicio no haya pasado ya
+            if (request.TurnDate == today && request.TurnStartTime <= nowTime) return false;
+
             // 1. validacion de horarios para que la hora de fin sea mayor a la de inicio
             if (request.TurnEndTime <= request.TurnStartTime) return false;
 
@@ -94,9 +103,19 @@ namespace Application.Service
         public bool UpdateTurn(int id, UpdateTurnRequest request)
         {
             var turnToUpdate = _turnRepository.GetTurnById(id);
+            if (turnToUpdate == null) return false;
 
-            // 1. Validación básica de existencia y horario
-            if (turnToUpdate == null || request.TurnEndTime <= request.TurnStartTime) return false;
+            var today = DateOnly.FromDateTime(DateTime.Now);
+            var nowTime = TimeOnly.FromDateTime(DateTime.Now);
+
+            // 0. Validación de fechas pasadas para la nueva fecha sugerida
+            if (request.TurnDate < today) return false;
+
+            // Si el nuevo horario es para hoy, validar que no haya pasado
+            if (request.TurnDate == today && request.TurnStartTime <= nowTime) return false;
+
+            // 1. Validación básica de horario (fin > inicio)
+            if (request.TurnEndTime <= request.TurnStartTime) return false;
 
             // 1.5 validacion para la disponibilidad del Barbero para las nuevas horas
             if (!IsBarberAvailable(
@@ -111,7 +130,7 @@ namespace Application.Service
                 request.TurnDate,
                 request.TurnStartTime,
                 request.TurnEndTime,
-                id //  ID que debe ser EXCLUIDO de la búsqueda de conflicto
+                id // ID que debe ser EXCLUIDO de la búsqueda de conflicto
             ))
             {
                 return false; // Conflicto con otro turno encontrado.
@@ -142,33 +161,48 @@ namespace Application.Service
 
         private bool IsBarberAvailable(int barberId, DateOnly date, TimeOnly startTime, TimeOnly endTime)
         {
-            // 1. Verificar EXCEPCIONES DE CALENDARIO (Vacaciones, Enfermedad, etc.)
+            // 1. Verificar EXCEPCIONES DE CALENDARIO (Vacaciones, Permisos, Horas de comida)
             var exceptions = _turnRepository.GetScheduleExceptionsByDate(barberId, date);
 
             foreach (var exception in exceptions)
             {
-                // Una excepción de fecha completa (como vacaciones) anula la disponibilidad
-                // Si la excepción no tiene un rango de tiempo específico (00:00 a 00:00, o si se maneja como día completo)
-                // se asume que el barbero NO está disponible todo el día.
+                // CASO A: La excepción cubre todo el día (ej. estamos en el medio de sus vacaciones)
+                if (date > exception.ExceptionStartDate && date < exception.ExceptionEndDate)
+                {
+                    return false;
+                }
 
-                // Aquí se requiere una decisión de diseño: si TimeOnly es 00:00-00:00, ¿es el día completo?
-                // Vamos a asumir que si se encuentra CUALQUIER excepción para esa fecha, el barbero NO está disponible.
-                // Si quieres manejar excepciones por hora (ej: "No atiende de 14:00 a 15:00"), la lógica es más compleja,
-                // pero para días completos de excepción (Vacation, Holiday) esto es suficiente.
-                return false; // El barbero tiene una excepción de día completo (o parcial)
+                // CASO B: El turno es el MISMO día que empieza una excepción larga
+                if (date == exception.ExceptionStartDate && date < exception.ExceptionEndDate)
+                {
+                    // Si el turno termina DESPUÉS de que empieza la excepción, choca.
+                    if (endTime > exception.ExceptionStartTime) return false;
+                }
+
+                // CASO C: El turno es el MISMO día que termina una excepción larga
+                if (date > exception.ExceptionStartDate && date == exception.ExceptionEndDate)
+                {
+                    // Si el turno empieza ANTES de que termine la excepción, choca.
+                    if (startTime < exception.ExceptionEndTime) return false;
+                }
+
+                // CASO D (El que te fallaba): La excepción empieza y termina el MISMO día (ej: Break de 10 a 14)
+                if (date == exception.ExceptionStartDate && date == exception.ExceptionEndDate)
+                {
+                    // Fórmula para saber si dos rangos de horas se chocan:
+                    // (Inicio1 < Fin2) Y (Fin1 > Inicio2)
+                    if (startTime < exception.ExceptionEndTime && endTime > exception.ExceptionStartTime)
+                    {
+                        return false; // Se solapan, no está disponible
+                    }
+                }
             }
 
             // 2. Verificar HORARIO SEMANAL REGULAR
-            // Se debe mapear la fecha (DateOnly) al día de la semana (WeekDay)
-            // Nota: El tipo WeekDay en C# es System.DayOfWeek. Tu enum WeekDay no incluye Monday.
-            // Aquí usamos el DayOfWeek de .NET y lo convertimos a tu enum WeekDay para la búsqueda.
             var dayOfWeek = date.DayOfWeek;
 
-            // Convertir el DayOfWeek de .NET a tu WeekDay enum
-            // Si tu enum no incluye Monday, por ejemplo, puedes verificar si la conversión es posible.
             if (!Enum.IsDefined(typeof(WeekDay), dayOfWeek.ToString()))
             {
-                // Si es Lunes (Monday) y no está en tu enum, el barbero NO está disponible.
                 return false;
             }
 
@@ -180,14 +214,12 @@ namespace Application.Service
 
             if (!schedules.Any())
             {
-                return false; // No hay horario definido para ese día (ej: Lunes/Domingo o no definido)
+                return false; // No atiende ese día de la semana
             }
 
-            // Verificar si el horario del turno solicitado cae dentro de AL MENOS UN horario de trabajo.
+            // Verificar si el turno cae DENTRO del horario de trabajo regular
             bool isWithinSchedule = schedules.Any(schedule =>
-                // El inicio del turno debe ser mayor o igual al inicio del schedule
                 startTime >= schedule.StartTime &&
-                // El fin del turno debe ser menor o igual al fin del schedule
                 endTime <= schedule.EndTime
             );
 
