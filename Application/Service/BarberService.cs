@@ -57,17 +57,27 @@ namespace Application.Service
 
         public bool UpdateBarber(int id, UpdateBarberRequest request)
         {
-            var BarberToUpdate = _barberRepository.GetBarberById(id);
+            var barberToUpdate = _barberRepository.GetBarberById(id);
 
-            if (BarberToUpdate == null)
+            if (barberToUpdate == null)
             {
                 return false;
             }
-            BarberToUpdate.Name = request.Name;
-            BarberToUpdate.Email = request.Email;
-            BarberToUpdate.Phone = request.Phone;
 
-            return _barberRepository.UpdateBarber(BarberToUpdate);
+            // ✅ Solo valida si cambió el email
+            if (barberToUpdate.Email != request.Email)
+            {
+                if (_barberRepository.EmailExists(request.Email, id))
+                {
+                    return false;
+                }
+            }
+
+            barberToUpdate.Name = request.Name;
+            barberToUpdate.Email = request.Email;
+            barberToUpdate.Phone = request.Phone;
+
+            return _barberRepository.UpdateBarber(barberToUpdate);
         }
 
         public bool DeleteBarber(int id)

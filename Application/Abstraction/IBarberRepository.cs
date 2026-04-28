@@ -16,5 +16,6 @@ namespace Application.Abstraction
         // Esto son WriteOnly porque modifican y esperan una respuesta booleana
         bool UpdateBarber(Barber barber);
         bool DeleteBarber(int id);
+        bool EmailExists(string email, int? excludeBarberId = null);
     }
 }

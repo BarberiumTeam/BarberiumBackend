@@ -41,13 +41,24 @@ namespace Presentation.Controllers
         [HttpPut("{id}")]
         public IActionResult UpdateClient(int id, [FromBody] UpdateClientRequest request)
         {
-            if (id <= 0) return BadRequest("Id invalido");
+            if (id <= 0)
+                return BadRequest("Id invalido");
 
+            if (request == null)
+                return BadRequest("Datos inválidos");
+
+            // 💾 Intentar actualizar (el service ya valida todo)
             bool success = _clientService.UpdateClient(id, request);
 
             if (!success)
             {
-                return NotFound($"Cliente con {id} no encontrado o no se pudo actualizar");
+                // 🔎 Verificar si existe para diferenciar error
+                var client = _clientService.GetClientById(id);
+
+                if (client == null)
+                    return NotFound($"Cliente con {id} no encontrado");
+
+                return BadRequest("El email ya está registrado.");
             }
 
             return NoContent();

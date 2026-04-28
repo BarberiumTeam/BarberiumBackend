@@ -41,13 +41,25 @@ namespace Presentation.Controllers
         [HttpPut("{id}")]
         public IActionResult UpdateClient(int id, [FromBody] UpdateBarberRequest request)
         {
-            if (id <= 0) return BadRequest("Id invalido");
+            // 🔴 Validación básica
+            if (id <= 0)
+                return BadRequest("Id invalido");
 
+            if (request == null)
+                return BadRequest("Datos inválidos");
+
+            // 💾 Intentar actualizar (el service ya valida todo)
             bool success = _barberService.UpdateBarber(id, request);
 
             if (!success)
             {
-                return NotFound($"Barber con {id} no encontrado o no se pudo actualizar");
+                // 🔎 Verificar si existe para diferenciar error
+                var barber = _barberService.GetBarberById(id);
+
+                if (barber == null)
+                    return NotFound($"Barber con {id} no encontrado");
+
+                return BadRequest("El email ya está registrado.");
             }
 
             return NoContent();

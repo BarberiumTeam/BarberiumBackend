@@ -58,6 +58,13 @@ namespace Application.Service
             {
                 return false;
             }
+            if (ClientToUpdate.Email != request.Email)
+            {
+                if (_clientRepository.EmailExists(request.Email, id))
+                {
+                    return false;
+                }
+            }
             ClientToUpdate.Name = request.Name;
             ClientToUpdate.Email = request.Email;
             ClientToUpdate.Phone = request.Phone;

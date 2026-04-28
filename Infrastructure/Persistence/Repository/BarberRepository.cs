@@ -39,5 +39,17 @@ namespace Infrastructure.Persistence.Repository
 
             return _context.SaveChanges() > 0;
         }
+
+        public bool EmailExists(string email, int? excludeBarberId = null)
+        {
+            var existsInClients = _context.Clients.Any(c => c.Email == email);
+
+            var existsInBarbers = _context.Barbers.Any(b =>
+                b.Email == email &&
+                (excludeBarberId == null || b.Id != excludeBarberId)
+    );
+
+            return existsInClients || existsInBarbers;
+        }
     }
 }
