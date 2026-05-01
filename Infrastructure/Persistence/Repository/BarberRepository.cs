@@ -51,5 +51,9 @@ namespace Infrastructure.Persistence.Repository
 
             return existsInClients || existsInBarbers;
         }
+        public bool HasAnyBarber()
+        {
+            return _context.Barbers.Any();
+        }
     }
 }

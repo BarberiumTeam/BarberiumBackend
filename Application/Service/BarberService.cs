@@ -84,5 +84,9 @@ namespace Application.Service
         {
             return _barberRepository.DeleteBarber(id);
         }
+        public bool HasAnyBarber()
+        {
+            return _barberRepository.HasAnyBarber();
+        }
     }
 }

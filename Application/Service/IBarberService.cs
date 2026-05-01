@@ -10,5 +10,6 @@ namespace Application.Service
 
         bool UpdateBarber(int id, UpdateBarberRequest request);
         bool DeleteBarber(int id);
+        bool HasAnyBarber();
     }
 }

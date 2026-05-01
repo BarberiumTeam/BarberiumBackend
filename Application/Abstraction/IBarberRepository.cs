@@ -17,5 +17,6 @@ namespace Application.Abstraction
         bool UpdateBarber(Barber barber);
         bool DeleteBarber(int id);
         bool EmailExists(string email, int? excludeBarberId = null);
+        bool HasAnyBarber();
     }
 }

@@ -79,5 +79,12 @@ namespace Presentation.Controllers
 
             return NoContent();
         }
+
+        [HttpGet("has-any")]
+        public ActionResult<bool> HasAnyBarber()
+        {
+            var exists = _barberService.HasAnyBarber();
+            return Ok(exists);
+        }
     }
 }
